@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../stylesheets/style.css">
+</head>
+<body>
+    <div id="main">
+        <div id="sidenav">
+            <div id="left">
+                <div id="icon-up">
+                    <!-- <i id="filebox"  class="ri-file-copy-2-line"></i> -->
+                    <a id="filebox" href="" title="Explorer"><i class="ri-file-copy-2-line"></i></a>
+                    <a href="" title="Search"><i class="ri-search-line"></i></a>
+                    <a href="" title="Source Control"><i class="ri-git-branch-line"></i></a>
+                    <a href="" title="Run and Debug"><i class="ri-play-line"></i></a>
+                    <a href="" title="Extensions"><i class="ri-layout-grid-line"></i></a>
+                    <a href="" title="Remote Explorer"><i class="ri-tv-2-line"></i></a>
+                    <a href="" title="Github"><i class="ri-github-fill"></i></a>
+                    <a href="" title="Live Share"><i class="ri-share-forward-line"></i></a>
+                    <a href="" title="Gitlens"><i class="ri-git-merge-line"></i></a>
+                </div>
+                <div id="icon-down">
+                    <a href="" title="Accounts"><i class="ri-account-circle-line"></i></a>
+                    <a href="" title="Manage"><i class="ri-settings-5-line"></i></a>
+                </div>
+            </div>
+            <div id="right">
+                <div id="head">
+                    <i id="head-icon" class="ri-arrow-down-s-line"></i>
+                    <h1>SASTA VS CODE</h1>
+                    <div id="icons">
+                        <i title="Create File" id="addbtn" class="ri-file-add-line"></i>
+                        <i title="Create Folder" id="folderbtn" class="ri-folder-add-fill"></i>
+                        <a title="Refresh" href="/"><i class="ri-restart-line"></i></a>
+                    </div>
+                </div>
+                <hr>
+                <div id="createfile">
+                    <form action="/createfile">
+                        <input id="searchform" name="AddFile" type="text" placeholder="Add File">
+                    </form>
+                </div>
+                <div id="createfolder">
+                    <form action="/createFolder">
+                        <input id="newfolder" name="addNewFolder" type="text" placeholder="Add New Folder">
+                    </form>
+                </div>
+                <div class="files"> 
+                    <% files.forEach(function(elem){ %>
+                        <div class="file">
+                            <div class="naam">
+                                <% if(elem.isFolder){ %>
+                                    <i id="foldericon" class="ri-folder-2-line"></i>
+                                    <%= elem.name %>
+                               <% } else{ %>
+                                <i id="fileicon" class="ri-file-list-line"></i>
+                                <a href="/file/<%= elem.name %>" style="text-decoration: none;color:white;">
+                                    <%= elem.name %>
+                                </a>
+                                <% } %>
+                            </div>
+                            <a  title="Delete" href="/delete/<%= elem.name %>"><i id="deletebtn" class="ri-delete-bin-6-line"></i></a>
+                        </div>
+                    <% }) %>
+                </div>
+            </div>
+        </div>
+        <div id="code">
+            <% if(filename.length>0){ %>
+            <div id="upnav">
+                    <div id="filename-nav">
+                        <div class="filename">
+                            <i class="ri-file-list-line"></i>
+                            <!-- index.html -->
+                            <%= filename %>
+                            <a href="/close"><i title="close" class="ri-close-line"></i></a>
+                        </div>
+                    </div>
+                <div id="source">
+                    <!-- <a href="" title="Run Code"><i class="ri-play-line"></i></a> -->
+                    <a href="" title="Split editor"><i class="ri-layout-column-line"></i></a>
+                    <a href="" title="More actions"><i class="ri-more-fill"></i></a>
+                </div>
+            </div>
+            
+            <form action="/savefile/<%= filename %>" method="post">
+                <textarea name="datafile"><%= filedata %></textarea>
+                <button id="run-code" type="submit"><a href="" title="Run Code"><i class="ri-play-line"></i></a></button>
+            </form>
+            <button id="open-html"><a href="/openfile/<%=filename%>" target="_blank">Open</a></button>
+            <% }else{ %>
+                <div style="position: absolute; top:40%;left:40%" id="texxt">
+                    <h4>No File opened</h4>
+                    <h1>select file to open</h1>
+                </div>
+            <% } %>
+        </div>
+
+    </div>
+
+
+    <script>
+    function fileHandling(){
+            var flag = 0;
+        document.querySelector("#addbtn").addEventListener("click", function(){
+            if(flag===0){
+            document.querySelector("#createfile").style.display="block";
+            flag=1;
+            }
+        else{
+            document.querySelector("#createfile").style.display="none";
+            flag=0;
+            }
+        })
+        }
+        
+    
+    function folderHandling(){
+        var flagfolderbtn = 0
+        document.querySelector("#folderbtn").addEventListener("click",function(){
+            if(flagfolderbtn===0){
+                document.querySelector("#createfolder").style.display="block";
+                flagfolderbtn=1
+            }
+            else{
+                document.querySelector("#createfolder").style.display="none";
+                flagfolderbtn=0
+            }
+        })
+    }
+    
+    fileHandling();
+    folderHandling();
+
+    </script>
+</body>
+</html>
